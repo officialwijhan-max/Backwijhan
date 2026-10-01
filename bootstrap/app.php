@@ -78,7 +78,7 @@ return Application::configure(basePath: dirname(__DIR__))
                     'message' => $status === 429
                         ? __('Too many requests. Please try again later.')
                         : ($status < 500 ? $e->getMessage() : __('Something went wrong.')),
-                ], $status);
+                ], $status, $status === 429 ? $e->getHeaders() : []); // keeps Retry-After / X-RateLimit-* from the throttle middleware
             }
 
             report($e);

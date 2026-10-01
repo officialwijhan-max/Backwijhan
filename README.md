@@ -93,6 +93,7 @@ Production checklist:
   set to the real site origin(s) only.
 - A real mail driver (`MAIL_MAILER=smtp`, …) and a supervised
   `php artisan queue:work` process.
+- Use `docker/php/php.ini` (`expose_php=Off`, production OPcache) as the PHP ini of the production image.
 - PHP **OPcache enabled** (`zend_extension=opcache`, `opcache.enable=1`).
   In production also set `opcache.validate_timestamps=0` and restart PHP-FPM
   on each deploy. For the local `php artisan serve` dev server,

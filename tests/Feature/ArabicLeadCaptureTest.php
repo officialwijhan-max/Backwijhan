@@ -95,6 +95,27 @@ class ArabicLeadCaptureTest extends TestCase
         $this->assertSame(5, Contact::count());
     }
 
+    public function test_throttled_responses_carry_a_valid_retry_after_header(): void
+    {
+        Mail::fake();
+
+        foreach (range(1, 5) as $i) {
+            $this->postJson('/api/v1/contact', $this->payload())->assertCreated();
+        }
+
+        $response = $this->postJson('/api/v1/contact', $this->payload())->assertStatus(429);
+
+        // Message stays localized; the header is additive.
+        $response->assertJsonPath('message', 'عدد الطلبات كبير. يرجى المحاولة لاحقًا.');
+
+        $retryAfter = $response->headers->get('Retry-After');
+        $this->assertNotNull($retryAfter, 'Retry-After header is missing on 429');
+        $this->assertMatchesRegularExpression('/^\d+$/', $retryAfter);
+        $this->assertGreaterThanOrEqual(1, (int) $retryAfter);
+        $this->assertLessThanOrEqual(60, (int) $retryAfter, 'lead-capture window is one minute');
+        $this->assertSame('0', $response->headers->get('X-RateLimit-Remaining'));
+    }
+
     public function test_the_throttle_message_is_english_by_default(): void
     {
         Mail::fake();
