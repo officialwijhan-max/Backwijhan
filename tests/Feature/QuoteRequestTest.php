@@ -75,9 +75,18 @@ class QuoteRequestTest extends TestCase
         $this->assertSame(0, QuoteRequest::count());
     }
 
-    public function test_missing_budget_range_fails_validation(): void
+    public function test_budget_range_is_optional(): void
     {
-        $response = $this->postJson('/api/v1/quote-requests', $this->payload(['budget_range' => '']));
+        Mail::fake();
+
+        $this->postJson('/api/v1/quote-requests', $this->payload(['budget_range' => '']))->assertStatus(201);
+
+        $this->assertNull(QuoteRequest::sole()->budget_range);
+    }
+
+    public function test_unknown_budget_range_fails_validation(): void
+    {
+        $response = $this->postJson('/api/v1/quote-requests', $this->payload(['budget_range' => 'a million quid']));
 
         $response->assertStatus(422)->assertJsonValidationErrors('budget_range');
         $this->assertSame(0, QuoteRequest::count());

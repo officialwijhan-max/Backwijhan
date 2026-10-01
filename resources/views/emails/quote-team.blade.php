@@ -14,7 +14,7 @@
         <tr><td style="font-weight: bold;">Email</td><td>{{ $quoteRequest->email }}</td></tr>
         <tr><td style="font-weight: bold;">Phone</td><td>{{ $quoteRequest->phone ?? '—' }}</td></tr>
         <tr><td style="font-weight: bold;">Project type</td><td>{{ $quoteRequest->project_type }}</td></tr>
-        <tr><td style="font-weight: bold;">Budget</td><td>{{ $quoteRequest->budget_range }}</td></tr>
+        <tr><td style="font-weight: bold;">Budget</td><td>{{ $quoteRequest->budget_range ?? '—' }}</td></tr>
         <tr><td style="font-weight: bold; vertical-align: top;">Description</td><td>{{ $quoteRequest->description }}</td></tr>
         <tr><td style="font-weight: bold;">Submitted</td><td>{{ $quoteRequest->submitted_at?->toDayDateTimeString() }}</td></tr>
     </table>

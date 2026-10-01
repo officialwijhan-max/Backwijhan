@@ -31,7 +31,7 @@ class QuoteRequestInfolist
                     ->schema([
                         TextEntry::make('status')->badge(),
                         LeadEntries::projectType(required: true),
-                        TextEntry::make('budget_range'),
+                        TextEntry::make('budget_range')->placeholder('—'),
                         LeadEntries::message('description'),
                     ]),
                 Section::make('Submission details')

@@ -2,6 +2,8 @@
 
 namespace App\Support;
 
+use App\Models\Service;
+
 /**
  * The Project Type / Budget Range option values as they are literally submitted
  * by the existing frontend's <select> elements (src/routes/contact.tsx,
@@ -14,6 +16,21 @@ namespace App\Support;
  */
 class EngagementOptions
 {
+    /**
+     * Stable, locale-independent keys the forms may post as `project_type`
+     * besides an active service slug. The first four are the "Product"
+     * options on the Contact page (src/routes/contact.tsx and
+     * src/components/arabic-pages.tsx) — keep them in sync with those arrays.
+     */
+    public const PROJECT_TYPE_EXTRAS = [
+        'new-product',
+        'existing-product',
+        'erp-operations',
+        'embedded-team',
+        'other',
+        'not-sure',
+    ];
+
     public const PROJECT_TYPES_EN = [
         'New digital product',
         'Existing product improvement',
@@ -71,6 +88,24 @@ class EngagementOptions
     public static function contactBudgetRanges(): array
     {
         return [...self::budgetRanges(), ...self::CONTACT_BUDGET_RANGES];
+    }
+
+    /**
+     * Active service slugs plus the stable extras. Read from the services
+     * table per request rather than hardcoded, so renaming, adding or
+     * deactivating a service needs no code change in the form requests.
+     *
+     * @return list<string>
+     */
+    public static function serviceProjectTypes(): array
+    {
+        $activeSlugs = Service::query()
+            ->where('is_active', true)
+            ->whereNotNull('slug')
+            ->pluck('slug')
+            ->all();
+
+        return [...$activeSlugs, ...self::PROJECT_TYPE_EXTRAS];
     }
 
     public static function projectTypes(): array

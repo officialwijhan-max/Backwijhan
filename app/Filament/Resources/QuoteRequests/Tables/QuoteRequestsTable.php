@@ -29,7 +29,7 @@ class QuoteRequestsTable
                 TextColumn::make('project_type')
                     ->formatStateUsing(fn (?string $state): ?string => LeadLabels::projectType($state))
                     ->sortable(),
-                TextColumn::make('budget_range')->sortable(),
+                TextColumn::make('budget_range')->sortable()->placeholder('—'),
                 TextColumn::make('status')->badge()->sortable(),
                 TextColumn::make('submitted_at')->dateTime()->sortable(),
             ])
