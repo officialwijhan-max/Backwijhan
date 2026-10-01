@@ -1,0 +1,10 @@
+{
+    "Validation failed.": "تعذّر التحقق من البيانات المُدخلة. يرجى مراجعة الحقول.",
+    "Unauthenticated.": "يلزم تسجيل الدخول للمتابعة.",
+    "This action is unauthorized.": "ليست لديك صلاحية لتنفيذ هذا الإجراء.",
+    "The requested resource was not found.": "المورد المطلوب غير موجود.",
+    "Too many requests. Please try again later.": "عدد الطلبات كبير. يرجى المحاولة لاحقًا.",
+    "Something went wrong.": "حدث خطأ ما. يرجى المحاولة لاحقًا.",
+    "Your request has been received.": "استلمنا طلبك وسنتواصل معك قريبًا.",
+    "OK": "تم"
+}
